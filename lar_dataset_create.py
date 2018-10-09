@@ -60,8 +60,8 @@ def make_chi2(shape, k, w):
     
 
 def main():
-    for jimg in range(128):
-        fname = "data1/img_{}.png".format(jimg)
+    for jimg in range(1280):
+        fname = "data1/lar/img_{}.png".format(jimg)
         make_one(fname,False)
 def make_one(fname, diag=True):
     img_sz = 96
