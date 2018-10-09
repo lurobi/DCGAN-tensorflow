@@ -28,6 +28,16 @@ flags.DEFINE_boolean("visualize", False, "True for visualizing, False for nothin
 flags.DEFINE_integer("generate_test_images", 100, "Number of images to generate during test. [100]")
 FLAGS = flags.FLAGS
 
+FLAGS.dataset = 'lar'
+if FLAGS.dataset == 'lar':
+  FLAGS.input_width = 96
+  FLAGS.input_height = 96
+  FLAGS.output_width = 96
+  FLAGS.output_height = 96
+  FLAGS.input_fname_pattern = '*.png'
+  FLAGS.data_dir = 'data1'
+  
+
 def main(_):
   pp.pprint(flags.FLAGS.__flags)
 
@@ -46,7 +56,26 @@ def main(_):
   run_config.gpu_options.allow_growth=True
 
   with tf.Session(config=run_config) as sess:
-    if FLAGS.dataset == 'mnist':
+    if FLAGS.dataset == 'lar':
+      FLAGS.input_width = 96
+      FLAGS.input_height = 96
+      dcgan = DCGAN(
+        sess,
+        input_width=FLAGS.input_width,
+        input_height=FLAGS.input_height,
+        output_width=FLAGS.output_width,
+        output_height=FLAGS.output_height,
+        batch_size=FLAGS.batch_size,
+        sample_num=FLAGS.batch_size,
+        y_dim=None,
+        z_dim=FLAGS.generate_test_images,
+        dataset_name=FLAGS.dataset,
+        input_fname_pattern=FLAGS.input_fname_pattern,
+        crop=FLAGS.crop,
+        checkpoint_dir=FLAGS.checkpoint_dir,
+        sample_dir=FLAGS.sample_dir,
+        data_dir=FLAGS.data_dir)
+    elif FLAGS.dataset == 'mnist':
       dcgan = DCGAN(
           sess,
           input_width=FLAGS.input_width,
